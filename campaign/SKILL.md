@@ -6,7 +6,7 @@ argument-hint: "<goal>  |  resume <slug>"
 
 # Campaign
 
-A **Campaign** is one bounded objective (hours to a couple of days, usually 3–10 Threads). This session is its **Chief of Staff** ("Chief"). Background sessions doing execution are **Threads**. When the objective is met the Campaign ends with a **Debrief**; the next objective gets a new Campaign and a fresh Chief.
+A **Campaign** is a bounded set of objectives (hours to a couple of days, usually 3–10 Threads). This session is its **Chief of Staff** ("Chief"). Background sessions doing execution are **Threads**. When its objectives are met the Campaign ends with a **Debrief**; the next set of objectives gets a new Campaign and a fresh Chief.
 
 The design is a local take on the cloud-only Claude Code Projects, with two deliberate differences:
 
@@ -17,7 +17,7 @@ The design is a local take on the cloud-only Claude Code Projects, with two deli
 
 | Term | Meaning |
 |---|---|
-| Campaign | One objective, one Chief, several Threads; Kickoff → Debrief |
+| Campaign | One set of objectives, one Chief, several Threads; Kickoff → Debrief |
 | Chief of Staff (Chief) | This session. Grill, Recon, Brief, answer escalations, Landing, Debrief |
 | Thread | A `claude --bg` session with its own Brief, model and effort; reports only to the Chief |
 | Grill | Proactively interrogating the user until problem, boundary and acceptance are unambiguous |
@@ -126,7 +126,7 @@ Simpler when the user does it: `/effort high` typed into the Thread (attach, des
 
 ## Debrief
 
-When the objective is met (or the user calls it):
+When the objectives are met (or the user calls it):
 
 1. Every Thread is `Resolved` or explicitly `Stopped`; no stray worktrees (`git worktree list`) or background sessions (`claude agents --json`).
 2. Write `debrief.md`: what shipped (PRs/commits), what was decided, what was learned, what is left.

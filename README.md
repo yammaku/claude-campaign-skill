@@ -6,14 +6,14 @@
 
 **Claude Campaign** is a skill for Claude Code. Type `/campaign <goal>` and that session becomes your **Chief of Staff**: it plans the work with you, starts background Claude Code sessions (**Threads**) to do it in parallel, answers their questions, reviews and merges their results, and writes a debrief at the end.
 
-Think of it as Claude Code Projects, but local, focused on one goal at a time, and available today. No beta, no waitlist.
+Think of it as Claude Code Projects, but local, focused on one campaign at a time, and available today. No beta, no waitlist.
 
 ## Why
 
 <p align="center"><img src="assets/compare-en.png" alt="Claude Code Projects vs Claude Campaign: messenger vs brain" width="100%"></p>
 
 - **A brain, not a messenger.** In Claude Code Projects, blocked threads wait for you to answer them one by one. In a Campaign, Threads only talk to the Chief, and the Chief answers most questions itself. Only real decisions reach you.
-- **One goal at a time.** A Project runs forever, so its main thread stays shallow. A Campaign has one objective and ends with a debrief, so the Chief can go deep.
+- **One campaign at a time.** A Project runs forever, so its main thread stays shallow. A Campaign has a focused set of objectives and ends with a debrief, so the Chief can go deep.
 - **Your machine, your setup.** It runs in the repo you already have, with your `CLAUDE.md`, memory, tools and local apps. Nothing to migrate.
 
 ## How it works

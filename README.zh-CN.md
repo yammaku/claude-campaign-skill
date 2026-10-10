@@ -6,14 +6,14 @@
 
 **Claude Campaign** 是一个 Claude Code skill。输入 `/campaign <目标>`，当前会话就成为你的**参谋长（Chief）**：和你一起把事情想清楚，启动多个后台 Claude Code 会话（**Thread**）并行干活，回答它们的问题，审查并合并它们的成果，最后写复盘。
 
-可以把它理解成 Claude Code Projects 的本地版：一次只专注一个目标，现在就能用，不用等 beta、不用排队。
+可以把它理解成 Claude Code Projects 的本地版：一次只专注一场 Campaign，现在就能用，不用等 beta、不用排队。
 
 ## 为什么
 
 <p align="center"><img src="assets/compare-zh.png" alt="Claude Code Projects 与 Claude Campaign：传话筒与大脑" width="100%"></p>
 
 - **是大脑，不是传话筒。** 在 Claude Code Projects 里，卡住的子线程要你一个一个去回复。在 Campaign 里，Thread 只和 Chief 说话，大部分问题 Chief 自己就能回答，只有真正的决定才会交给你。
-- **一次一个目标。** Project 永远不结束，主线程只能停留在浅层。Campaign 只有一个目标，做完就复盘，所以 Chief 可以深入。
+- **一次一场 Campaign。** Project 永远不结束，主线程只能停留在浅层。Campaign 有一组聚焦的目标，做完就复盘，所以 Chief 可以深入。
 - **你的电脑，你的环境。** 直接在你已有的仓库里运行，用你的 `CLAUDE.md`、memory、工具和本地应用，不需要任何迁移。
 
 ## 工作方式

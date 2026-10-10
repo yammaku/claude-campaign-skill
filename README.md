@@ -4,9 +4,9 @@
 
 [中文版](README.zh-CN.md) · MIT licensed
 
-**Claude Campaign** is a skill for Claude Code. Type `/campaign <goal>` and that session becomes your **Chief of Staff**: it plans the work with you, starts background Claude Code sessions (**Threads**) to do it in parallel, answers their questions, reviews and merges their results, and writes a debrief at the end.
+**Claude Campaign** is a skill for Claude Code. Type `/campaign <goal>` and that session becomes your **Chief of Staff**: it plans the work with you, starts Claude Code sessions (**Threads**) to do it in parallel, answers their questions, reviews and merges their results, and writes a debrief at the end.
 
-Think of it as Claude Code Projects, but local, focused on one campaign at a time, and available today. No beta, no waitlist.
+Threads aren't hidden subagents: each one shows up in the Claude desktop app, on the web and on your phone, and you can step into any of them whenever you want. Think of it as Claude Code Projects, but local, focused on one campaign at a time, and available today. No beta, no waitlist.
 
 ## Why
 

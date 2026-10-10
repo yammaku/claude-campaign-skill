@@ -4,9 +4,9 @@
 
 [English](README.md) · MIT 许可证
 
-**Claude Campaign** 是一个 Claude Code skill。输入 `/campaign <目标>`，当前会话就成为你的**参谋长（Chief）**：和你一起把事情想清楚，启动多个后台 Claude Code 会话（**Thread**）并行干活，回答它们的问题，审查并合并它们的成果，最后写复盘。
+**Claude Campaign** 是一个 Claude Code skill。输入 `/campaign <目标>`，当前会话就成为你的**参谋长（Chief）**：和你一起把事情想清楚，启动多个 Claude Code 会话（**Thread**）并行干活，回答它们的问题，审查并合并它们的成果，最后写复盘。
 
-可以把它理解成 Claude Code Projects 的本地版：一次只专注一场 Campaign，现在就能用，不用等 beta、不用排队。
+Thread 不是藏起来的 subagent：每一个都会出现在 Claude 桌面端、网页和手机上，你随时可以点进去直接介入。可以把它理解成 Claude Code Projects 的本地版：一次只专注一场 Campaign，现在就能用，不用等 beta、不用排队。
 
 ## 为什么
 

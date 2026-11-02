@@ -1,0 +1,13 @@
+name: check
+on: [push, pull_request]
+jobs:
+  shared-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scripts parse
+        run: |
+          for f in campaign/scripts/*.sh campaign-native/scripts/*.sh tools/*.sh; do sh -n "$f"; done
+          for f in campaign/scripts/*.py campaign-native/scripts/*.py; do python3 -m py_compile "$f"; done
+      - name: Both skills share one Campaign file
+        run: sh tools/check-shared.sh

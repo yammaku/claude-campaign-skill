@@ -1,4 +1,4 @@
 interface:
   display_name: "Campaign"
-  short_description: "Chief of Staff session that runs background Thread sessions for one objective"
+  short_description: "Chief of Staff session that runs background Thread sessions for a set of objectives"
   default_prompt: "Start a campaign for: "

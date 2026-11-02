@@ -4,7 +4,7 @@
 
 [中文版](README.zh-CN.md) · MIT licensed
 
-**Claude Campaign** is a skill for Claude Code. Type `/campaign <goal>` and that session becomes your **Chief of Staff**: it plans the work with you, starts Claude Code sessions (**Threads**) to do it in parallel, answers their questions, reviews and merges their results, and writes a debrief at the end.
+**Claude Campaign** is a pair of skills for Claude Code. Type `/campaign-native <goal>` (Claude desktop app) or `/campaign <goal>` (terminal) and that session becomes your **Chief of Staff**: it plans the work with you, starts Claude Code sessions (**Threads**) to do it in parallel, answers their questions, reviews and merges their results, and writes a debrief at the end.
 
 Threads aren't hidden subagents: each one shows up in the Claude desktop app, on the web and on your phone, and you can step into any of them whenever you want. Think of it as Claude Code Projects, but local, focused on one campaign at a time, and available today. No beta, no waitlist.
 
@@ -40,50 +40,84 @@ These are redrawn from real sessions. Project names are changed; the wording is 
 
 <p align="center"><img src="assets/real-handover.png" alt="A new Chief picks up a handover brief and takes over a running Thread" width="100%"></p>
 
-## Install
+## Two skills, one Campaign
 
-Requires a logged-in Claude Code with background sessions (`--bg`), `--worktree`, `--remote-control` and cross-session `SendMessage`. Tested on Claude Code 2.1.294, macOS.
+| | `campaign-native` (recommended) | `campaign` |
+|---|---|---|
+| Runs in | Claude desktop app (Code tab) | Terminal, or the desktop app |
+| Threads are | the app's own linked sub-sessions, grouped under the Chief in the sidebar | `claude --bg` sessions with Remote Control |
+| Thread reports | arrive by themselves when a Thread ends a turn | `SendMessage` between sessions |
+| Moving parts | one setup script, one optional hook | scripts to spawn Threads and hand over, optional guard hooks |
+
+Both keep the Campaign's state in the same files (`.campaigns/<date>-<slug>/`), so a Chief of either kind can take over a Campaign the other started. `tools/check-shared.sh` keeps that contract honest.
+
+## Install
 
 ```sh
 git clone https://github.com/yammaku/claude-campaign-skill.git
 cd claude-campaign-skill
 
-campaign_target="$HOME/.claude/skills/campaign"
-if [ -e "$campaign_target" ] || [ -L "$campaign_target" ]; then
-  echo "campaign already exists; back it up or remove it first." >&2
-else
-  mkdir -p "$HOME/.claude/skills"
-  cp -R ./campaign "$campaign_target"
-fi
+mkdir -p "$HOME/.claude/skills"
+for skill in campaign-native campaign; do
+  target="$HOME/.claude/skills/$skill"
+  if [ -e "$target" ] || [ -L "$target" ]; then
+    echo "$skill already exists; back it up or remove it first." >&2
+  else
+    cp -R "./$skill" "$target"
+  fi
+done
 ```
 
-Open a new Claude Code session and type `/campaign` to check it's there.
+Install just one of them if you like; each works on its own. Open a new Claude Code session and type `/campaign-native` or `/campaign` to check it's there. To update later, `git pull` and copy again.
+
+**Requirements.** `campaign-native` needs the Claude desktop app with sub-sessions (`start_session`). `campaign` needs a logged-in Claude Code with background sessions (`--bg`), `--worktree`, `--remote-control` and cross-session `SendMessage`; it was tested on Claude Code 2.1.294. Both were tested on macOS.
+
+**Hooks (optional, once per machine).** They go into `~/.claude/settings.json`.
+- `campaign-native`: a SessionStart hook that reads the Campaign's resume card back to the Chief after a compaction. The snippet is at the end of [campaign-native/SKILL.md](campaign-native/SKILL.md).
+- `campaign`: the chief-guard hooks, which refuse a heavy step (merge, push, spawn) until the resume card is up to date. See [campaign/references/chief-guard.md](campaign/references/chief-guard.md).
 
 ## Use
 
 ```text
+/campaign-native Fix the three login-flow bugs and finish regression testing
+/campaign-native resume <campaign-dir>
 /campaign Fix the three login-flow bugs and finish regression testing
 /campaign resume <slug>
 ```
 
 Before you start:
 
-- **Permissions.** Threads run with `--permission-mode bypassPermissions`, and the Chief should use the same mode, or messages between them wait for approval. Use it only in repos where that's fine.
-- **Remote Control** is on by default, so you can open any Thread from the Claude desktop app, web or phone. Ask the Chief for `--no-remote-control` to turn it off.
-- **Usage.** Background sessions use your normal Claude plan. For small tasks the Chief just does the work itself.
+- **Permissions.** With `campaign-native`, a Thread's permission mode and effort can't exceed the Chief's, so start the Chief in the mode you want the Threads to have. With `campaign`, Threads run with `--permission-mode bypassPermissions`, and the Chief should use the same mode, or messages between them wait for approval. Use bypass only in repos where that's fine.
+- **Remote Control.** With `campaign-native`, turn on Settings → Claude Code → "Connect new sessions to Remote Control" to follow Threads on the web and your phone. With `campaign` it is on by default; ask the Chief for `--no-remote-control` to turn it off.
+- **Usage.** Threads use your normal Claude plan. For small tasks the Chief just does the work itself.
 
 ## What's inside
 
 ```text
+campaign-native/
+├── SKILL.md                   The Chief's workflow and rules (desktop sub-sessions)
+├── scripts/
+│   ├── chief.sh               Creates or resumes .campaigns/<date>-<slug>/ and registers the Chief
+│   └── resume-inject.py       Optional hook: the resume card after a compaction
+└── references/
+    ├── brief-template.md      A Thread's task brief, including how it reports
+    └── campaign-file.md       The shared Campaign file layout
 campaign/
-├── SKILL.md                   The Chief's workflow and rules
+├── SKILL.md                   The Chief's workflow and rules (claude --bg)
 ├── scripts/
 │   ├── campaign-init.sh       Creates .campaigns/<date>-<slug>/
-│   └── spawn-thread.sh        Starts a Thread with claude --bg
+│   ├── spawn-thread.sh        Starts a Thread with claude --bg
+│   ├── handover-chief.sh      Starts a new Chief when you ask for a handover
+│   ├── chief-register.sh      Registers the Chief for the guard hooks
+│   └── chief-guard.py         Optional hooks that keep the resume card current
 └── references/
     ├── brief-template.md      A Thread's task brief
-    ├── campaign-file.md       Board, decisions, asks, handoff
-    └── thread-protocol.md     How Threads report and escalate
+    ├── campaign-file.md       The shared Campaign file layout (same as above)
+    ├── thread-protocol.md     How Threads report and escalate
+    ├── handover-template.md   What an outgoing Chief writes down
+    └── chief-guard.md         What the guard hooks do and how to install them
+tools/
+└── check-shared.sh            Checks that both skills still share one Campaign file
 ```
 
 Campaign state lives in `.campaigns/` inside your repo and is kept out of git through `.git/info/exclude`.

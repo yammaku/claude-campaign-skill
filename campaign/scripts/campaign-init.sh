@@ -38,7 +38,7 @@ cat > "$dir/campaign.md" <<MD
 # Campaign: $slug
 
 - Started: $today
-- Chief session: <name from ListAgents>
+- Chief session: <this session's name> · skill: <campaign | campaign-native>
 - Repo: $root
 
 ## Objective
@@ -51,8 +51,8 @@ cat > "$dir/campaign.md" <<MD
 
 ## ROE (what the Chief may do without asking)
 
-- <e.g. merge a Thread's PR after all repo gates pass>
-- Always ask: release, upload, force-push, history rewrite, deleting non-Campaign data, posting to people.
+- <e.g. land a Thread's work after all repo gates pass>
+- Always ask: release, upload, force-push, history rewrite, deleting non-Campaign data, posting to people, archiving or deleting sessions.
 
 ## Model lineup
 
@@ -74,6 +74,27 @@ cat > "$dir/board.md" <<'MD'
 
 | Thread | Status | Model/effort | Checkout · branch | PR | Updated | Note |
 |---|---|---|---|---|---|---|
+MD
+
+cat > "$dir/resume.md" <<'MD'
+# Resume card — rewrite (do not append) before every heavy step and at the end of every turn
+
+## Now
+- <what is happening this minute; any running command with its task id / log path and how to check its result>
+
+## Next (in order)
+1. <next action, concrete enough for a fresh session>
+
+## In flight
+- Threads: <name · kind (bg | native) · id: state>
+- Background jobs and watches: <what, PID, log path, how to check it; a task id only notifies the session that started it, so a new Chief needs the PID and log>
+
+## Waiting on user
+- <decision / acceptance>
+
+## Constraints
+- <ROE highlights, user preferences that must not be forgotten>
+- Timestamps come from `date`, never from memory.
 MD
 
 printf '# Decisions\n\n' > "$dir/decisions.md"
